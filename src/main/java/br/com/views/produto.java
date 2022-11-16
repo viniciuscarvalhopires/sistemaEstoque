@@ -11,16 +11,22 @@ import br.com.model.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 public class produto extends javax.swing.JFrame {
+    
+
     
     public produto() {
         initComponents();
         category();
+        updateTable();
     }
 
     /**
@@ -79,6 +85,11 @@ public class produto extends javax.swing.JFrame {
         jLabel2.setText("Categorias");
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,10 +160,7 @@ public class produto extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Produto", "Categoria", "Valor", "Quantidade", "Descrição"
@@ -279,11 +287,48 @@ public class produto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void category() {
-        Connection con = SingleConnection.getConnection();
+    private void updateTable(){
+        int count;
+        
         
         try {
+            Connection con = SingleConnection.getConnection();
+            String sql = "SELECT nm_produto, vl_produto, qt_quantidadeProduto, ds_descricao, nm_categoria FROM tb_produto JOIN tb_categoria on tb_categoria.cd_categoria = tb_produto.cd_categoria";
+          
+               
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
             
+            count = rsmd.getColumnCount();
+            
+            DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
+            
+            d.setRowCount(0);
+            
+            while(rs.next()){
+                Vector v = new Vector();
+                for (int i = 0; i < count; i++) {
+                    v.add(rs.getString("nm_produto"));
+                    v.add(rs.getString("nm_categoria"));
+                    v.add(rs.getDouble("vl_produto"));
+                    v.add(rs.getInt("qt_quantidadeProduto"));
+                    v.add(rs.getString("ds_descricao"));   
+                }
+                
+                d.addRow(v);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+    }
+    
+    private void category() {
+        
+        
+        try {
+            Connection con = SingleConnection.getConnection();
             String sql = "select * from tb_categoria";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -294,7 +339,7 @@ public class produto extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }        
+        } 
     }
     
     private double formatValue(double value) {
@@ -327,15 +372,25 @@ public class produto extends javax.swing.JFrame {
         
         valorUnit = formatValue(valorUnit);
         
-        produto.setNm_produto(produtoNome.getName());
+        produto.setNm_produto(produtoNome.getText());
         produto.setCd_categoria_produto(cDao.selectID((String) listCategoria.getSelectedItem()));
         produto.setVl_produto(valorUnit);
         produto.setDs_descricao(descricaoProduto.getText());
         produto.setQt_produto(sliderQuantidade.getValue());
         
         produtoDao.insert(produto);
-        
+        produtoNome.setText("");
+        valorUnitario.setText("");
+        descricaoProduto.setText("");
+        sliderQuantidade.setValue(0);
+        updateTable();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        categoria ctg = new categoria();
+        this.dispose();
+        ctg.setVisible(true);
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments

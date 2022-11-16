@@ -89,6 +89,9 @@ public class CategoriaDAO {
             ResultSet rs = stmt.executeQuery();
             
             id = rs.getInt("cd_categoria");
+            stmt.close();
+            rs.close();
+            
         } catch (Exception e) {
             e.printStackTrace();
             try {
