@@ -8,8 +8,11 @@ import br.com.connectionjdbc.SingleConnection;
 import br.com.model.Categoria;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -75,6 +78,27 @@ public class CategoriaDAO {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public int selectID(String name) {
+        int id = 0;
+        try {
+            String sql = "select cd_categoria from tb_categoria where nm_categoria = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            
+            id = rs.getInt("cd_categoria");
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(CategoriaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return id;
     }
     
    /* public void list() throws Exception {
