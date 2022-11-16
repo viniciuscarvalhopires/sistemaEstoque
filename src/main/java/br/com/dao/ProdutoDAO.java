@@ -38,7 +38,9 @@ public class ProdutoDAO {
 
             connection.commit();
             JOptionPane.showMessageDialog(null, "Produto inserida com sucesso.");
+            stmt.close();
         } catch (Exception e) {
+            e.printStackTrace();
             try {
                 connection.rollback();
             } catch (SQLException ex) {
