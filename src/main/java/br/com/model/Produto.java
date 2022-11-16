@@ -10,20 +10,20 @@ import br.com.connectionjdbc.SingleConnection;
  *
  * @author Vinicius
  */
-
 public class Produto {
 
     private int cd_produto;
     private String nm_produto;
     private double vl_produto;
     private int cd_categoria_produto;
+    private int qt_produto;
+    private String ds_descricao;
 
-    
     public Produto() {
 
     }
-    
-     public int getCd_produto() {
+
+    public int getCd_produto() {
         return cd_produto;
     }
 
@@ -53,7 +53,23 @@ public class Produto {
 
     public void setCd_categoria_produto(int cd_categoria_produto) {
         this.cd_categoria_produto = cd_categoria_produto;
-        
+
     }
-    
+
+    public int getQt_produto() {
+        return qt_produto;
+    }
+
+    public void setQt_produto(int qt_produto) {
+        this.qt_produto = qt_produto;
+    }
+
+    public String getDs_descricao() {
+        return ds_descricao;
+    }
+
+    public void setDs_descricao(String ds_descricao) {
+        this.ds_descricao = ds_descricao;
+    }
+
 }

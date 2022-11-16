@@ -215,6 +215,7 @@ public class categoria extends javax.swing.JFrame {
     private void update_table(){
         int count;
         
+        
         try {
             Connection con = SingleConnection.getConnection();
             String sql = "select * from tb_categoria";
@@ -242,7 +243,9 @@ public class categoria extends javax.swing.JFrame {
         
         } catch (SQLException ex) {
             Logger.getLogger(categoria.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
+        
+        
     }
     
     private void categoryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryNameActionPerformed
