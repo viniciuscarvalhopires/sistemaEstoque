@@ -40,7 +40,7 @@ public class ProdutoDAO {
             JOptionPane.showMessageDialog(null, "Produto inserida com sucesso.");
             stmt.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro: " + e);
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -49,24 +49,51 @@ public class ProdutoDAO {
         }
     }
 
-    public void delete(String index) {
+    public void delete(int index) {
         try {
             String sql = "delete from tb_produto where cd_produto = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, index);
+            stmt.setInt(1, index);
             stmt.executeUpdate();
 
             connection.commit();
             JOptionPane.showMessageDialog(null, "Produto deletado com sucesso.");
 
+            JOptionPane.showMessageDialog(null, "Produto de ID " + index + " deletado com sucesso!");
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro: " + e);
             try {
                 connection.rollback();
             } catch (SQLException ex) {
                 Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+        }
+    }
+
+    public void update(Produto produto) {
+        try {
+            String sql = "update tb_produto set nm_produto = ?, vl_produto = ?, ds_descricao = ?, qt_quantidadeProduto = ?, cd_categoria = ? where cd_produto = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, produto.getNm_produto());
+            stmt.setDouble(2, produto.getVl_produto());
+            stmt.setString(3, produto.getDs_descricao());
+            stmt.setInt(4, produto.getQt_produto());
+            stmt.setInt(5, produto.getCd_categoria_produto());
+            stmt.setInt(6, produto.getCd_produto());
+
+            stmt.executeUpdate();
+            connection.commit();
+            JOptionPane.showMessageDialog(null, "Produto de ID " + produto.getCd_produto() + " alterado com sucesso.");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e);
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
