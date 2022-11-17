@@ -57,7 +57,7 @@ public class ProdutoDAO {
             stmt.executeUpdate();
 
             connection.commit();
-            JOptionPane.showMessageDialog(null, "Produto deletado com sucesso.");
+        
 
             JOptionPane.showMessageDialog(null, "Produto de ID " + index + " deletado com sucesso!");
         } catch (Exception e) {
