@@ -17,13 +17,12 @@ import java.text.DecimalFormat;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class produto extends javax.swing.JFrame {
-    
 
-    
     public produto() {
         initComponents();
         category();
@@ -311,26 +310,24 @@ public class produto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void updateTable(){
+    private void updateTable() {
         int count;
-        
-        
+
         try {
             Connection con = SingleConnection.getConnection();
             String sql = "SELECT cd_produto, nm_produto, vl_produto, qt_quantidadeProduto, ds_descricao, nm_categoria FROM tb_produto JOIN tb_categoria on tb_categoria.cd_categoria = tb_produto.cd_categoria";
-          
-               
+
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
-            
+
             count = rsmd.getColumnCount();
-            
+
             DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
-            
+
             d.setRowCount(0);
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Vector v = new Vector();
                 for (int i = 0; i < count; i++) {
                     v.add(rs.getInt("cd_produto"));
@@ -338,41 +335,40 @@ public class produto extends javax.swing.JFrame {
                     v.add(rs.getString("nm_categoria"));
                     v.add(rs.getDouble("vl_produto"));
                     v.add(rs.getInt("qt_quantidadeProduto"));
-                    v.add(rs.getString("ds_descricao"));   
+                    v.add(rs.getString("ds_descricao"));
                 }
-                
+
                 d.addRow(v);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
+
     }
-    
+
     private void category() {
-        
-        
+
         try {
             Connection con = SingleConnection.getConnection();
             String sql = "select * from tb_categoria";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             listCategoria.removeAllItems();
-            
+
             while (rs.next()) {
                 listCategoria.addItem(rs.getString("nm_categoria"));
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
     }
-    
+
     private double formatValue(double value) {
-        DecimalFormat formato = new DecimalFormat("#.##");        
+        DecimalFormat formato = new DecimalFormat("#.##");
         value = Double.parseDouble(formato.format(value));
         return value;
     }
-    
+
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
 
     }//GEN-LAST:event_jLabel1MouseClicked
@@ -394,15 +390,15 @@ public class produto extends javax.swing.JFrame {
         ProdutoDAO produtoDao = new ProdutoDAO();
         CategoriaDAO cDao = new CategoriaDAO();
         Double valorUnit = Double.parseDouble(valorUnitario.getText());
-        
+
         valorUnit = formatValue(valorUnit);
-        
+
         produto.setNm_produto(produtoNome.getText());
         produto.setCd_categoria_produto(cDao.selectID((String) listCategoria.getSelectedItem()));
         produto.setVl_produto(valorUnit);
         produto.setDs_descricao(descricaoProduto.getText());
         produto.setQt_produto(sliderQuantidade.getValue());
-        
+
         produtoDao.insert(produto);
         produtoNome.setText("");
         valorUnitario.setText("");
@@ -418,60 +414,76 @@ public class produto extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        Produto produto = new Produto();
-        ProdutoDAO produtoDao = new ProdutoDAO();
-        CategoriaDAO cDao = new CategoriaDAO();
-        Double valorUnit = Double.parseDouble(valorUnitario.getText());
+
         int column = 0;
         int row = jTable1.getSelectedRow();
-        
-        
-        valorUnit = formatValue(valorUnit);
-        
-        produto.setCd_produto((int) jTable1.getModel().getValueAt(row, column));
-        produto.setNm_produto(produtoNome.getText());
-        produto.setCd_categoria_produto(cDao.selectID((String) listCategoria.getSelectedItem()));
-        produto.setVl_produto(valorUnit);
-        produto.setDs_descricao(descricaoProduto.getText());
-        produto.setQt_produto(sliderQuantidade.getValue());
-        
-        produtoDao.update(produto);
-        produtoNome.setText("");
-        valorUnitario.setText("");
-        descricaoProduto.setText("");
-        sliderQuantidade.setValue(0);
-        updateTable();
+
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Selecione um produto da lista.");
+        } else {
+            Produto produto = new Produto();
+            ProdutoDAO produtoDao = new ProdutoDAO();
+            CategoriaDAO cDao = new CategoriaDAO();
+            Double valorUnit = Double.parseDouble(valorUnitario.getText());
+            valorUnit = formatValue(valorUnit);
+
+            produto.setCd_produto((int) jTable1.getModel().getValueAt(row, column));
+            produto.setNm_produto(produtoNome.getText());
+            produto.setCd_categoria_produto(cDao.selectID((String) listCategoria.getSelectedItem()));
+            produto.setVl_produto(valorUnit);
+            produto.setDs_descricao(descricaoProduto.getText());
+            produto.setQt_produto(sliderQuantidade.getValue());
+
+            produtoDao.update(produto);
+            produtoNome.setText("");
+            valorUnitario.setText("");
+            descricaoProduto.setText("");
+            sliderQuantidade.setValue(0);
+            updateTable();
+            jTable1.clearSelection();
+        }
+
+
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int column = 0;
         int row = jTable1.getSelectedRow();
-        
-        ProdutoDAO produtoDao = new ProdutoDAO();
-        produtoDao.delete((int) jTable1.getModel().getValueAt(row, column));
-        
-        produtoNome.setText("");
-        valorUnitario.setText("");
-        descricaoProduto.setText("");
-        sliderQuantidade.setValue(0);
-        updateTable();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Selecione um produto da lista.");
+        } else {
+            ProdutoDAO produtoDao = new ProdutoDAO();
+            produtoDao.delete((int) jTable1.getModel().getValueAt(row, column));
+
+            produtoNome.setText("");
+            valorUnitario.setText("");
+            descricaoProduto.setText("");
+            sliderQuantidade.setValue(0);
+            updateTable();
+        }
+
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int row = jTable1.getSelectedRow();
         int columns = jTable1.getColumnCount();
-        
-        TableModel model = jTable1.getModel();
-        
+
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Selecione um produto da lista.");
+        } else {
+            TableModel model = jTable1.getModel();
+
             produtoNome.setText(model.getValueAt(row, 1).toString());
             valorUnitario.setText(model.getValueAt(row, 3).toString());
             descricaoProduto.setText(model.getValueAt(row, 5).toString());
             sliderQuantidade.setValue(Integer.parseInt(model.getValueAt(row, 4).toString()));
-            for(int i = 0; i < listCategoria.getItemCount(); i++){
-                if(listCategoria.getItemAt(i).equals(model.getValueAt(row, 2).toString())){
+            for (int i = 0; i < listCategoria.getItemCount(); i++) {
+                if (listCategoria.getItemAt(i).equals(model.getValueAt(row, 2).toString())) {
                     listCategoria.setSelectedIndex(i);
                 }
             }
+        }
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void clearFieldsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFieldsActionPerformed
