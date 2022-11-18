@@ -31,7 +31,6 @@ public class SingleConnection {
             
             connection = DriverManager.getConnection(url);
             connection.setAutoCommit(false);
-                System.out.println("cheguei");
             }
         } catch (Exception e) {
             e.printStackTrace();
