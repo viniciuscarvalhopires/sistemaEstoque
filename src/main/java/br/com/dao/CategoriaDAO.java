@@ -56,7 +56,7 @@ public class CategoriaDAO {
             String sql = "delete from tb_categoria where cd_categoria = " + index;
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.executeUpdate();
-            connection.commit();
+           connection.commit();
             JOptionPane.showMessageDialog(null, "Categoria deletada com sucesso.");
         } catch (Exception e) {
         }
@@ -68,8 +68,8 @@ public class CategoriaDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, name);
             stmt.setString(2, index);
-            int rowsUpdate = stmt.executeUpdate();
-            connection.commit();
+         
+           connection.commit();
             JOptionPane.showMessageDialog(null, "CAtegoria alterada com sucesso!");
         } catch (Exception e) {
             try {
