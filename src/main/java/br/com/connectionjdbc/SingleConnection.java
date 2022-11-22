@@ -10,7 +10,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class SingleConnection {
-    private static String url = "jdbc:sqlite:database.db";
+    private static String userHome = System.getProperty("user.home");
+    private static String url = "jdbc:sqlite:" + userHome + "\\database.db";
+    
     private static String database = "";
     private static String user = "root";
     private static String password = "admin";

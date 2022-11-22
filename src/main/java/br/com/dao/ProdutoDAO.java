@@ -8,6 +8,7 @@ import br.com.connectionjdbc.SingleConnection;
 import br.com.model.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,5 +97,48 @@ public class ProdutoDAO {
             }
         }
     }
+    
+    
+    public String count(){
+        int qtProduto = 0;
+        
+        try {
+            String sql = "select count(cd_produto) as count from tb_produto";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+            qtProduto = rs.getInt("count");
+            }
+            stmt.close();
+            rs.close();
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, "Ocorreu um erro: " + e);
+        }
+        
+        return Integer.toString(qtProduto);
+    }
 
+    public String quantidadeSoma(){
+        int qtTotalProduto = 0;
+        
+        try {
+            String sql = "select sum(qt_Quantidadeproduto) as count from tb_produto";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+            qtTotalProduto = rs.getInt("count");
+            }
+            stmt.close();
+            rs.close();
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, "Ocorreu um erro: " + e);
+        }
+        
+        return Integer.toString(qtTotalProduto);
+    }
+    
 }

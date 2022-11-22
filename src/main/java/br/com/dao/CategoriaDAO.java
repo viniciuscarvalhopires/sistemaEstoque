@@ -62,12 +62,12 @@ public class CategoriaDAO {
         }
     }
     
-    public void update(String index, String name){
+    public void update(Categoria categoria){
         try {
             String sql = "update tb_categoria set nm_categoria = ? where cd_categoria = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, name);
-            stmt.setString(2, index);
+            stmt.setString(1, categoria.getNome());
+            stmt.setInt(2, categoria.getCd_categoria());
          
            connection.commit();
             JOptionPane.showMessageDialog(null, "CAtegoria alterada com sucesso!");
@@ -102,6 +102,27 @@ public class CategoriaDAO {
         }
         
         return id;
+    }
+    
+    public String count(){
+        int qtCategoria = 0;
+        
+        try {
+            String sql = "select count(cd_categoria) as count from tb_categoria";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+            qtCategoria = rs.getInt("count");
+            }
+            stmt.close();
+            rs.close();
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, "Ocorreu um erro: " + e);
+        }
+        
+        return Integer.toString(qtCategoria);
     }
     
    /* public void list() throws Exception {

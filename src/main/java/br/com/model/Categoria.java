@@ -7,7 +7,7 @@ package br.com.model;
 
 public class Categoria {
     
-    private int cd;
+    private int cd_categoria;
     private String nome;
     
     public Categoria() {
@@ -22,12 +22,12 @@ public class Categoria {
         this.nome = nome;
     }
     
-     public int getCd() {
-        return cd;
+     public int getCd_categoria() {
+        return cd_categoria;
     }
 
-    public void setCd(int cd) {
-        this.cd = cd;
+    public void setCd_categoria(int cd_categoria) {
+        this.cd_categoria = cd_categoria;
     }
     
     

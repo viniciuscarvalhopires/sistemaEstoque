@@ -4,6 +4,8 @@
  */
 package br.com.model;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author 52215553
@@ -28,5 +30,8 @@ public class Usuario {
         this.senha = senha;
     }
     
+    public Boolean validarLogin(String login, String senha) {
+        return login.equals(this.usuario) && senha.equals(this.senha);
+    }
     
 }
