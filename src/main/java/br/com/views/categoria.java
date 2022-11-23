@@ -16,6 +16,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -60,7 +61,15 @@ public class categoria extends javax.swing.JFrame {
             new String [] {
                 "ID", "Categoria"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -147,6 +156,7 @@ public class categoria extends javax.swing.JFrame {
         jLabel6.setText("Nome");
 
         editCategory.setText("Alterar");
+        editCategory.setToolTipText("Para alterar uma categoria selecione na tabela abaixo e insira o novo nome no campo acima");
         editCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editCategoryActionPerformed(evt);
@@ -308,6 +318,7 @@ public class categoria extends javax.swing.JFrame {
         if (("".equals(categoryName.getText())) || (categoryName.getText() == null)) {
             JOptionPane.showMessageDialog(null, "Insira um nome válido!");
         } else {
+            System.out.println(categoryName.getText());
             Categoria categoria = new Categoria();
             CategoriaDAO dao = new CategoriaDAO();
             int column = 0;
@@ -319,6 +330,7 @@ public class categoria extends javax.swing.JFrame {
             dao.update(categoria);
             update_table();
         }
+        
         categoryName.setText("");
     }//GEN-LAST:event_editCategoryActionPerformed
 
@@ -354,10 +366,10 @@ public class categoria extends javax.swing.JFrame {
 
                 CategoriaDAO dao = new CategoriaDAO();
                 int column = 0;
+                
+                int index = (int) jTable1.getValueAt(row, column);
 
-                String value = jTable1.getModel().getValueAt(row, column).toString();
-
-                dao.delete(value);
+                dao.delete(index);
 
                 update_table();
             }
@@ -408,6 +420,10 @@ public class categoria extends javax.swing.JFrame {
         inicio.setVisible(true);
     }//GEN-LAST:event_inicioMouseClicked
 
+   public JTable getTable(){
+        return this.jTable1;
+    }
+    
     /**
      * @param args the command line arguments
      */

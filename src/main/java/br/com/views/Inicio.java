@@ -7,6 +7,13 @@ package br.com.views;
 import br.com.connectionjdbc.SingleConnection;
 import br.com.dao.CategoriaDAO;
 import br.com.dao.ProdutoDAO;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +22,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,9 +31,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Inicio extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Inicio
-     */
+  
     public Inicio() {
         initComponents();
         atualizaDados();
@@ -54,6 +60,7 @@ public class Inicio extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         somaTotalQuantidade = new javax.swing.JTextField();
+        gerarPDF = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1132, 500));
@@ -117,7 +124,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 344, Short.MAX_VALUE))
         );
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -137,6 +144,7 @@ public class Inicio extends javax.swing.JFrame {
 
         qtProdutos.setEditable(false);
 
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -145,15 +153,22 @@ public class Inicio extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Categoria", "Quantidade de produtos cadastrados", "Quantidade total de produtos"
+                "Categoria", "Quantidade de produtos cadastrados", "Quantidade total de produtos por categoria"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.Integer.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -163,6 +178,13 @@ public class Inicio extends javax.swing.JFrame {
 
         somaTotalQuantidade.setEditable(false);
 
+        gerarPDF.setText("Gerar relatório");
+        gerarPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gerarPDFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -171,9 +193,8 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(182, 182, 182)
+                        .addGap(186, 186, 186)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(117, 117, 117)
                                 .addComponent(jLabel4))
@@ -184,13 +205,19 @@ public class Inicio extends javax.swing.JFrame {
                                     .addComponent(jLabel7))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(qtProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(qtProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(55, 55, 55)
+                                        .addComponent(gerarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(qtCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(somaTotalQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(somaTotalQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(172, 172, 172))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(107, Short.MAX_VALUE))
+                        .addGap(74, 74, 74)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +225,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addGap(67, 67, 67)
+                .addGap(35, 35, 35)
                 .addComponent(jLabel4)
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -207,31 +234,32 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(qtProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(qtProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gerarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(somaTotalQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(86, 86, 86))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void atualizaDados(){
+    private void atualizaDados() {
         CategoriaDAO categoria = new CategoriaDAO();
         qtCategorias.setText(categoria.count());
-        
+
         ProdutoDAO produto = new ProdutoDAO();
         qtProdutos.setText(produto.count());
         somaTotalQuantidade.setText(produto.quantidadeSoma());
-        
-       try {
+
+        try {
             int count = 0;
             Connection con = SingleConnection.getConnection();
-            String sql = "select nm_categoria, count(cd_produto) as count, sum(qt_quantidadeProduto) as soma  from tb_produto JOIN tb_categoria on tb_produto.cd_categoria = tb_categoria.cd_categoria group by tb_produto.cd_categoria";
+            String sql = "select nm_categoria, count(cd_produto) as count, sum(qt_quantidadeProduto) as soma  from tb_categoria LEFT JOIN tb_produto on tb_categoria.cd_categoria = tb_produto.cd_categoria group by tb_categoria.cd_categoria";
 
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -255,11 +283,11 @@ public class Inicio extends javax.swing.JFrame {
             }
 
         } catch (SQLException ex) {
-            
+
             Logger.getLogger(categoria.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         produto prdt = new produto();
         this.dispose();
@@ -278,8 +306,104 @@ public class Inicio extends javax.swing.JFrame {
         inicio.setVisible(true);
     }//GEN-LAST:event_inicioMouseClicked
 
-    
-    
+    private void gerarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarPDFActionPerformed
+
+        String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int op = j.showSaveDialog(this);
+
+        if (op == JFileChooser.APPROVE_OPTION) {
+            path = j.getSelectedFile().getPath();
+        }
+        Document doc = new Document();
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\relatorio.pdf"));
+
+            doc.open();
+
+            //paragrafos
+            Paragraph p = new Paragraph("CATEGORIAS CADASTRADAS");
+            p.setSpacingAfter(20);
+            p.setAlignment(1);
+            doc.add(p);
+
+            // tabela categoria
+            categoria categoria = new categoria();
+            PdfPTable tabela = new PdfPTable(2);
+            tabela.addCell("ID");
+            tabela.addCell("Categoria");
+            for (int i = 0; i < categoria.getTable().getRowCount(); i++) {
+                String cd_categoria = categoria.getTable().getValueAt(i, 0).toString();
+                String nm_categoria = categoria.getTable().getValueAt(i, 1).toString();
+
+                tabela.addCell(cd_categoria);
+                tabela.addCell(nm_categoria);
+            }
+            doc.add(tabela);
+
+            p = new Paragraph("PRODUTOS CADASTRADOS");
+            p.setSpacingAfter(20);
+            p.setAlignment(1);
+            doc.add(p);
+
+            // tabela categoria
+            produto produto = new produto();
+            tabela = new PdfPTable(6);
+            tabela.addCell("ID");
+            tabela.addCell("Produto");
+            tabela.addCell("Categoria");
+            tabela.addCell("Valor");
+            tabela.addCell("Quantidade");
+            for (int i = 0; i < produto.getTable().getRowCount(); i++) {
+                String cd_produto = produto.getTable().getValueAt(i, 0).toString();
+                String nm_produto = produto.getTable().getValueAt(i, 1).toString();
+                String nm_categoria = produto.getTable().getValueAt(i, 2).toString();
+                String vl_produto = produto.getTable().getValueAt(i, 3).toString();
+                String qt_produto = produto.getTable().getValueAt(i, 4).toString();
+                
+                tabela.addCell(cd_produto);
+                tabela.addCell(nm_produto);
+                tabela.addCell(nm_categoria);
+                tabela.addCell(vl_produto);
+                tabela.addCell(qt_produto);
+            }
+            doc.add(tabela);
+
+            p = new Paragraph("RELAÇÃO CATEGORIA-PRODUTO");
+            p.setSpacingAfter(20);
+            p.setAlignment(1);
+            doc.add(p);
+
+            //tabelas relação categoria produtos
+            tabela = new PdfPTable(3);
+            tabela.addCell("Categoria");
+            tabela.addCell("Quantidade de produtos");
+            tabela.addCell("Total de produtos cadastrados");
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                String nm_categoria = jTable1.getValueAt(i, 0).toString();
+                String qt_produtosCategoria = jTable1.getValueAt(i, 1).toString();
+                String qt_produtosTotal = jTable1.getValueAt(i, 2).toString();
+
+                tabela.addCell(nm_categoria);
+                tabela.addCell(qt_produtosCategoria);
+                tabela.addCell(qt_produtosTotal);
+
+            }     
+            doc.add(tabela);
+
+        } catch (FileNotFoundException ex) {
+
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        doc.close();
+
+    }//GEN-LAST:event_gerarPDFActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -313,6 +437,7 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton gerarPDF;
     private javax.swing.JLabel inicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

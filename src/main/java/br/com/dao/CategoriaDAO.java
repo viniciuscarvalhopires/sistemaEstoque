@@ -51,14 +51,23 @@ public class CategoriaDAO {
             
     }
     
-    public void delete(String index){
+    public void delete(int index){
         try {
-            String sql = "delete from tb_categoria where cd_categoria = " + index;
+            String sql = "delete from tb_categoria where cd_categoria = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, index);
             stmt.executeUpdate();
-           connection.commit();
+            
+            sql = "delete from tb_produto where cd_categoria = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, index);
+            stmt.executeUpdate();
+             
+     
+            connection.commit();
             JOptionPane.showMessageDialog(null, "Categoria deletada com sucesso.");
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -69,9 +78,12 @@ public class CategoriaDAO {
             stmt.setString(1, categoria.getNome());
             stmt.setInt(2, categoria.getCd_categoria());
          
+            stmt.executeUpdate();
            connection.commit();
+    
             JOptionPane.showMessageDialog(null, "CAtegoria alterada com sucesso!");
         } catch (Exception e) {
+            e.printStackTrace();
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -125,7 +137,7 @@ public class CategoriaDAO {
         return Integer.toString(qtCategoria);
     }
     
-   /* public void list() throws Exception {
+   /* public void  throws Exception {
         int count;
         
         List<Categoria> categoriaLista = new ArrayList<>();

@@ -18,6 +18,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -177,6 +178,7 @@ public class produto extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -184,7 +186,15 @@ public class produto extends javax.swing.JFrame {
             new String [] {
                 "ID", "Produto", "Categoria", "Valor", "Quantidade", "Descrição"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -571,7 +581,10 @@ public class produto extends javax.swing.JFrame {
         this.dispose();
         inicio.setVisible(true);
     }//GEN-LAST:event_inicioMouseClicked
-
+    
+    public JTable getTable(){
+        return this.jTable1;
+    }
     /**
      * @param args the command line arguments
      */
