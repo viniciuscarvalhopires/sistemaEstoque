@@ -349,7 +349,7 @@ public class Inicio extends javax.swing.JFrame {
 
             // tabela categoria
             produto produto = new produto();
-            tabela = new PdfPTable(6);
+            tabela = new PdfPTable(5);
             tabela.addCell("ID");
             tabela.addCell("Produto");
             tabela.addCell("Categoria");
