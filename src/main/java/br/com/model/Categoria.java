@@ -4,7 +4,7 @@
  */
 package br.com.model;
 
-
+//MODELO PARA TB_CATEGORIA
 public class Categoria {
     
     private int cd_categoria;

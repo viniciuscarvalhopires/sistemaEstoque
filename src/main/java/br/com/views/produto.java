@@ -473,7 +473,7 @@ public class produto extends javax.swing.JFrame {
 
         if (row < 0) {
             JOptionPane.showMessageDialog(null, "Selecione um produto da lista.");
-        } else {
+        } else if ("".equals(produtoNome.getText()) || "".equals(valorUnitario.getText())) {
             Produto produto = new Produto();
             ProdutoDAO produtoDao = new ProdutoDAO();
             CategoriaDAO cDao = new CategoriaDAO();

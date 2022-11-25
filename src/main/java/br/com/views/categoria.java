@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,12 +25,9 @@ import javax.swing.table.TableRowSorter;
 
 public class categoria extends javax.swing.JFrame {
 
-    /**
-     * Creates new form categoria
-     */
     public categoria() {
         initComponents();
-        update_table();
+        atualizarTabela();
     }
 
     @SuppressWarnings("unchecked")
@@ -276,8 +274,9 @@ public class categoria extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void update_table() {
-        int count;
+    //Método para atualizar a tabela de categorias exibida na tela
+    private void atualizarTabela() {
+        int count = 0;
 
         try {
             Connection con = SingleConnection.getConnection();
@@ -286,21 +285,21 @@ public class categoria extends javax.swing.JFrame {
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
-            count = rsmd.getColumnCount();
+            count = rsmd.getColumnCount(); //Retorna a quantidade de colunas na tabela a ser realizado o select
 
-            DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
+            DefaultTableModel tabelaModel = (DefaultTableModel) jTable1.getModel();
 
-            d.setRowCount(0);
+            tabelaModel.setRowCount(0);
 
             while (rs.next()) {
-                Vector v = new Vector();
+                Vector v = new Vector(); //Vetor criado para armazenar os valores das colunas do ResultSet
 
                 for (int i = 0; i < count; i++) {
                     v.add(rs.getInt("cd_categoria"));
                     v.add(rs.getString("nm_categoria"));
                 }
 
-                d.addRow(v);
+                tabelaModel.addRow(v); //Adiciona o vetor a linha da tabela
             }
 
         } catch (SQLException ex) {
@@ -310,7 +309,7 @@ public class categoria extends javax.swing.JFrame {
     }
 
     private void categoryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryNameActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_categoryNameActionPerformed
 
     private void editCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCategoryActionPerformed
@@ -318,24 +317,24 @@ public class categoria extends javax.swing.JFrame {
         if (("".equals(categoryName.getText())) || (categoryName.getText() == null)) {
             JOptionPane.showMessageDialog(null, "Insira um nome válido!");
         } else {
-            System.out.println(categoryName.getText());
-            Categoria categoria = new Categoria();
-            CategoriaDAO dao = new CategoriaDAO();
+
+            Categoria categoria = new Categoria(); //Instancia a classe categoria 
+            CategoriaDAO dao = new CategoriaDAO();  //Instancia a classe categoriaDAO
             int column = 0;
             int row = jTable1.getSelectedRow();
             String name = categoryName.getText();
-            int cd = (int) jTable1.getModel().getValueAt(row, column);
-            categoria.setNome(name);
-            categoria.setCd_categoria(cd);
-            dao.update(categoria);
-            update_table();
+            int cd = (int) jTable1.getModel().getValueAt(row, column); //Pega o valor do id da linha selecionada na coluna 0, ou seja, na primeira coluna da linha selecionada
+            categoria.setNome(name); //Seta o nome da categoria
+            categoria.setCd_categoria(cd); //Seta o id da categoria a ser editada
+            dao.update(categoria); //Executa o método update da categoriaDAO
+            atualizarTabela(); // Executa o método de atualizar a tabela ao editar categoria
         }
-        
-        categoryName.setText("");
+
+        categoryName.setText(""); //Limpa o campo do nome da categoria
     }//GEN-LAST:event_editCategoryActionPerformed
 
     private void clearFieldsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFieldsActionPerformed
-        categoryName.setText("");
+        categoryName.setText(""); //Limpa o campo do nome da categoria
     }//GEN-LAST:event_clearFieldsActionPerformed
 
     private void insertCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertCategoryActionPerformed
@@ -346,9 +345,8 @@ public class categoria extends javax.swing.JFrame {
             Categoria categoria = new Categoria();
             CategoriaDAO dao = new CategoriaDAO();
             categoria.setNome(categoryName.getText());
-            System.out.println(categoryName.getText());
-            dao.insert(categoria);
-            update_table();
+            dao.insert(categoria); //Insere a categoria, o ID da categoria não foi setado manualmente pois é gerado automaticamente pelo bd
+            atualizarTabela();
         }
         categoryName.setText("");
     }//GEN-LAST:event_insertCategoryActionPerformed
@@ -357,21 +355,17 @@ public class categoria extends javax.swing.JFrame {
 
         int row = jTable1.getSelectedRow();
 
-        if (row < 0) {
+        if (row < 0) { // Caso não tenha linha selecionada, exibe uma mensagem
             JOptionPane.showMessageDialog(null, "Selecione um produto da lista.");
         } else {
+            //Exibe uma janela de confirmação para o usuário
             int opcao = JOptionPane.showConfirmDialog(null, "Ao deletar uma categoria, todos os produtos associados a ela também serão deletados, deseja prosseguir? ");
-
-            if (opcao == 0) {
-
+            if (opcao == 0) { //Caso seja selecionado SIM
                 CategoriaDAO dao = new CategoriaDAO();
                 int column = 0;
-                
-                int index = (int) jTable1.getValueAt(row, column);
-
+                int index = (int) jTable1.getValueAt(row, column); //Seleciona o valor do ID do categoria cadastrada na linha selecionada e na coluna 0;
                 dao.delete(index);
-
-                update_table();
+                atualizarTabela();
             }
         }
         categoryName.setText("");
@@ -384,13 +378,16 @@ public class categoria extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void searchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyPressed
+        //Realiza busca em tempo real de acordo com o text digitado no campo de pesquisa
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        
         TableRowSorter<DefaultTableModel> tableRow = new TableRowSorter<DefaultTableModel>(model);
         jTable1.setRowSorter(tableRow);
         tableRow.setRowFilter(RowFilter.regexFilter("(?i)" + searchField.getText().trim()));
     }//GEN-LAST:event_searchFieldKeyPressed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // Exibe no campo do texto o nome da categoria selecionada
         int row = jTable1.getSelectedRow();
         int columns = jTable1.getColumnCount();
 
@@ -404,6 +401,7 @@ public class categoria extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+        //Realiza busca em tempo real de acordo com o text digitado no campo de pesquisa
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         TableRowSorter<DefaultTableModel> tableRow = new TableRowSorter<DefaultTableModel>(model);
         jTable1.setRowSorter(tableRow);
@@ -420,10 +418,10 @@ public class categoria extends javax.swing.JFrame {
         inicio.setVisible(true);
     }//GEN-LAST:event_inicioMouseClicked
 
-   public JTable getTable(){
+    public JTable getTable() {
         return this.jTable1;
     }
-    
+
     /**
      * @param args the command line arguments
      */
