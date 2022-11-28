@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package br.com.dao;
 
 import br.com.connectionjdbc.SingleConnection;
@@ -14,10 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Vinicius
- */
 public class ProdutoDAO {
 
     private Connection connection;
@@ -26,6 +19,7 @@ public class ProdutoDAO {
         this.connection = SingleConnection.getConnection();
     }
 
+    //Insere os atributos do objeto passado como parâmetro
     public void insert(Produto produto) {
         try {
             String sql = "insert into tb_produto (nm_produto, vl_produto, cd_categoria, qt_quantidadeProduto, ds_descricao) values (?, ?, ?, ?, ?)";
@@ -49,7 +43,8 @@ public class ProdutoDAO {
             }
         }
     }
-
+    
+  //Delete os atributos do objeto passado como parâmetro
     public void delete(int index) {
         try {
             String sql = "delete from tb_produto where cd_produto = ?";
@@ -72,6 +67,7 @@ public class ProdutoDAO {
         }
     }
 
+  //Altera os atributos do objeto passado como parâmetro
     public void update(Produto produto) {
         try {
             String sql = "update tb_produto set nm_produto = ?, vl_produto = ?, ds_descricao = ?, qt_quantidadeProduto = ?, cd_categoria = ? where cd_produto = ?";
@@ -98,7 +94,7 @@ public class ProdutoDAO {
         }
     }
     
-    
+    //Retorna a quantidade de produtos cadastrados 
     public String count(){
         int qtProduto = 0;
         
@@ -119,11 +115,13 @@ public class ProdutoDAO {
         
         return Integer.toString(qtProduto);
     }
-
+    
+    //Retorna a quantidade total de quantos produtos cadastrados
     public String quantidadeSoma(){
         int qtTotalProduto = 0;
         
         try {
+            
             String sql = "select sum(qt_Quantidadeproduto) as count from tb_produto";
             PreparedStatement stmt = connection.prepareStatement(sql);
             

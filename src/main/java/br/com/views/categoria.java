@@ -35,24 +35,24 @@ public class categoria extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaCategorias = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        produto = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         inicio = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         categoryName = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        editCategory = new javax.swing.JButton();
-        deleteCategory = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
         clearFields = new javax.swing.JButton();
-        insertCategory = new javax.swing.JButton();
+        insertButton = new javax.swing.JButton();
         searchField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -68,29 +68,29 @@ public class categoria extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tabelaCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                tabelaCategoriasMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(30);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(30);
+        jScrollPane1.setViewportView(tabelaCategorias);
+        if (tabelaCategorias.getColumnModel().getColumnCount() > 0) {
+            tabelaCategorias.getColumnModel().getColumn(0).setMinWidth(30);
+            tabelaCategorias.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tabelaCategorias.getColumnModel().getColumn(0).setMaxWidth(30);
         }
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setText("Produtos");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        produto.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        produto.setForeground(new java.awt.Color(255, 255, 255));
+        produto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        produto.setText("Produtos");
+        produto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        produto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        produto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                produtoMouseClicked(evt);
             }
         });
 
@@ -126,7 +126,7 @@ public class categoria extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(produto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(44, 44, 44))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -137,8 +137,8 @@ public class categoria extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(393, Short.MAX_VALUE))
+                .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(248, Short.MAX_VALUE))
         );
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -153,18 +153,18 @@ public class categoria extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel6.setText("Nome");
 
-        editCategory.setText("Alterar");
-        editCategory.setToolTipText("Para alterar uma categoria selecione na tabela abaixo e insira o novo nome no campo acima");
-        editCategory.addActionListener(new java.awt.event.ActionListener() {
+        editButton.setText("Alterar");
+        editButton.setToolTipText("Para alterar uma categoria selecione na tabela abaixo e insira o novo nome no campo acima");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editCategoryActionPerformed(evt);
+                editButtonActionPerformed(evt);
             }
         });
 
-        deleteCategory.setText("Deletar");
-        deleteCategory.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setText("Deletar");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteCategoryActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
             }
         });
 
@@ -175,12 +175,12 @@ public class categoria extends javax.swing.JFrame {
             }
         });
 
-        insertCategory.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        insertCategory.setText("Salvar");
-        insertCategory.setToolTipText("Clique para salvar");
-        insertCategory.addActionListener(new java.awt.event.ActionListener() {
+        insertButton.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        insertButton.setText("Salvar");
+        insertButton.setToolTipText("Clique para salvar");
+        insertButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insertCategoryActionPerformed(evt);
+                insertButtonActionPerformed(evt);
             }
         });
 
@@ -192,11 +192,11 @@ public class categoria extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(insertCategory)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(editCategory)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deleteCategory))
+                        .addComponent(insertButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addComponent(editButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addComponent(deleteButton))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -214,14 +214,14 @@ public class categoria extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editCategory)
-                    .addComponent(deleteCategory)
+                    .addComponent(editButton)
+                    .addComponent(deleteButton)
                     .addComponent(clearFields)
-                    .addComponent(insertCategory))
+                    .addComponent(insertButton))
                 .addContainerGap())
         );
 
-        insertCategory.getAccessibleContext().setAccessibleDescription("Clique para salvar categoria");
+        insertButton.getAccessibleContext().setAccessibleDescription("Clique para salvar categoria");
 
         searchField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,27 +246,27 @@ public class categoria extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(207, 207, 207))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(109, 109, 109)
+                .addGap(35, 35, 35)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(51, 51, 51)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -287,7 +287,7 @@ public class categoria extends javax.swing.JFrame {
             ResultSetMetaData rsmd = rs.getMetaData();
             count = rsmd.getColumnCount(); //Retorna a quantidade de colunas na tabela a ser realizado o select
 
-            DefaultTableModel tabelaModel = (DefaultTableModel) jTable1.getModel();
+            DefaultTableModel tabelaModel = (DefaultTableModel) tabelaCategorias.getModel();
 
             tabelaModel.setRowCount(0);
 
@@ -312,7 +312,7 @@ public class categoria extends javax.swing.JFrame {
 
     }//GEN-LAST:event_categoryNameActionPerformed
 
-    private void editCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCategoryActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
 
         if (("".equals(categoryName.getText())) || (categoryName.getText() == null)) {
             JOptionPane.showMessageDialog(null, "Insira um nome válido!");
@@ -321,9 +321,9 @@ public class categoria extends javax.swing.JFrame {
             Categoria categoria = new Categoria(); //Instancia a classe categoria 
             CategoriaDAO dao = new CategoriaDAO();  //Instancia a classe categoriaDAO
             int column = 0;
-            int row = jTable1.getSelectedRow();
+            int row = tabelaCategorias.getSelectedRow();
             String name = categoryName.getText();
-            int cd = (int) jTable1.getModel().getValueAt(row, column); //Pega o valor do id da linha selecionada na coluna 0, ou seja, na primeira coluna da linha selecionada
+            int cd = (int) tabelaCategorias.getModel().getValueAt(row, column); //Pega o valor do id da linha selecionada na coluna 0, ou seja, na primeira coluna da linha selecionada
             categoria.setNome(name); //Seta o nome da categoria
             categoria.setCd_categoria(cd); //Seta o id da categoria a ser editada
             dao.update(categoria); //Executa o método update da categoriaDAO
@@ -331,13 +331,13 @@ public class categoria extends javax.swing.JFrame {
         }
 
         categoryName.setText(""); //Limpa o campo do nome da categoria
-    }//GEN-LAST:event_editCategoryActionPerformed
+    }//GEN-LAST:event_editButtonActionPerformed
 
     private void clearFieldsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFieldsActionPerformed
         categoryName.setText(""); //Limpa o campo do nome da categoria
     }//GEN-LAST:event_clearFieldsActionPerformed
 
-    private void insertCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertCategoryActionPerformed
+    private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
         if (("".equals(categoryName.getText())) || (categoryName.getText() == null)) {
             JOptionPane.showMessageDialog(null, "Insira um nome válido!");
         } else {
@@ -349,11 +349,11 @@ public class categoria extends javax.swing.JFrame {
             atualizarTabela();
         }
         categoryName.setText("");
-    }//GEN-LAST:event_insertCategoryActionPerformed
+    }//GEN-LAST:event_insertButtonActionPerformed
 
-    private void deleteCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCategoryActionPerformed
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
 
-        int row = jTable1.getSelectedRow();
+        int row = tabelaCategorias.getSelectedRow();
 
         if (row < 0) { // Caso não tenha linha selecionada, exibe uma mensagem
             JOptionPane.showMessageDialog(null, "Selecione um produto da lista.");
@@ -363,63 +363,65 @@ public class categoria extends javax.swing.JFrame {
             if (opcao == 0) { //Caso seja selecionado SIM
                 CategoriaDAO dao = new CategoriaDAO();
                 int column = 0;
-                int index = (int) jTable1.getValueAt(row, column); //Seleciona o valor do ID do categoria cadastrada na linha selecionada e na coluna 0;
+                int index = (int) tabelaCategorias.getValueAt(row, column); //Seleciona o valor do ID do categoria cadastrada na linha selecionada e na coluna 0;
                 dao.delete(index);
                 atualizarTabela();
             }
         }
         categoryName.setText("");
-    }//GEN-LAST:event_deleteCategoryActionPerformed
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void produtoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_produtoMouseClicked
         produto prdt = new produto();
         this.dispose();
+        prdt.setLocationRelativeTo(null);
         prdt.setVisible(true);
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_produtoMouseClicked
 
     private void searchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyPressed
         //Realiza busca em tempo real de acordo com o text digitado no campo de pesquisa
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) tabelaCategorias.getModel();
         
         TableRowSorter<DefaultTableModel> tableRow = new TableRowSorter<DefaultTableModel>(model);
-        jTable1.setRowSorter(tableRow);
+        tabelaCategorias.setRowSorter(tableRow);
         tableRow.setRowFilter(RowFilter.regexFilter("(?i)" + searchField.getText().trim()));
     }//GEN-LAST:event_searchFieldKeyPressed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void tabelaCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaCategoriasMouseClicked
         // Exibe no campo do texto o nome da categoria selecionada
-        int row = jTable1.getSelectedRow();
-        int columns = jTable1.getColumnCount();
+        int row = tabelaCategorias.getSelectedRow();
+        int columns = tabelaCategorias.getColumnCount();
 
         if (row < 0) {
             JOptionPane.showMessageDialog(null, "Selecione um produto da lista.");
         } else {
-            TableModel model = jTable1.getModel();
+            TableModel model = tabelaCategorias.getModel();
 
             categoryName.setText(model.getValueAt(row, 1).toString());
         }
-    }//GEN-LAST:event_jTable1MouseClicked
+    }//GEN-LAST:event_tabelaCategoriasMouseClicked
 
     private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
         //Realiza busca em tempo real de acordo com o text digitado no campo de pesquisa
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) tabelaCategorias.getModel();
         TableRowSorter<DefaultTableModel> tableRow = new TableRowSorter<DefaultTableModel>(model);
-        jTable1.setRowSorter(tableRow);
+        tabelaCategorias.setRowSorter(tableRow);
         tableRow.setRowFilter(RowFilter.regexFilter("(?i)" + searchField.getText().trim()));
     }//GEN-LAST:event_searchFieldKeyReleased
 
     private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_searchFieldActionPerformed
 
     private void inicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inicioMouseClicked
         Inicio inicio = new Inicio();
         this.dispose();
+        inicio.setLocationRelativeTo(null);
         inicio.setVisible(true);
     }//GEN-LAST:event_inicioMouseClicked
 
     public JTable getTable() {
-        return this.jTable1;
+        return this.tabelaCategorias;
     }
 
     /**
@@ -460,18 +462,18 @@ public class categoria extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField categoryName;
     private javax.swing.JButton clearFields;
-    private javax.swing.JButton deleteCategory;
-    private javax.swing.JButton editCategory;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton editButton;
     private javax.swing.JLabel inicio;
-    private javax.swing.JButton insertCategory;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton insertButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel produto;
     private javax.swing.JTextField searchField;
+    private javax.swing.JTable tabelaCategorias;
     // End of variables declaration//GEN-END:variables
 }

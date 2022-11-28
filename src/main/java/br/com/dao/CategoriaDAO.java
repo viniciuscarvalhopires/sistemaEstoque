@@ -136,31 +136,4 @@ public class CategoriaDAO {
 
         return Integer.toString(qtCategoria);
     }
-
-    /* public void  throws Exception {
-        int count;
-        
-        List<Categoria> categoriaLista = new ArrayList<>();
-        
-        String sql = "select * from tb_categoria";
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        
-        ResultSet rs = stmt.executeQuery();
-        
-        ResultSetMetaData rsmd = rs.getMetaData();
-        count  = rsmd.getColumnCount();
-        
-        DefaultTableModel model = (DefaultTableModel) Table.getModel();
-        
-        while (rs.next()) {
-            
-            Categoria categoria = new Categoria();
-            categoria.setCd(rs.getInt("cd_categoria"));
-            categoria.setNome(rs.getString("nm_categoria"));
-            
-            categoriaLista.add(categoria);
-        }
-        
-      
-    }*/
 }

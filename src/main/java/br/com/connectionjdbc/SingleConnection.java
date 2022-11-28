@@ -42,7 +42,7 @@ public class SingleConnection {
                 stmt.executeUpdate();
 
                 //Cria tb_produto se não existir
-                String tb_produto = "CREATE TABLE IF NOT EXISTS tb_produto (cd_produto INTEGER CONSTRAINT pk_produto PRIMARY KEY ASC AUTOINCREMENT UNIQUE ON CONFLICT ROLLBACK NOT NULL DEFAULT (1), nm_produto VARCHAR (255) NOT NULL, vl_produto DOUBLE (9, 2) NOT NULL, cd_categoria INT CONSTRAINT fk_produto_categoria REFERENCES tb_categoria (cd_categoria) NOT NULL, ds_descricao VARCHAR (255), qt_quantidadeProduto INTEGER);";
+                String tb_produto = "CREATE TABLE IF NOT EXISTS tb_produto (cd_produto INTEGER CONSTRAINT pk_produto PRIMARY KEY ASC AUTOINCREMENT UNIQUE ON CONFLICT ROLLBACK NOT NULL DEFAULT (1), nm_produto VARCHAR (255) NOT NULL, vl_produto DOUBLE (9, 2), cd_categoria INT CONSTRAINT fk_produto_categoria REFERENCES tb_categoria (cd_categoria) NOT NULL, ds_descricao VARCHAR (255), qt_quantidadeProduto INTEGER);";
                 stmt = connection.prepareStatement(tb_produto);
                 stmt.executeUpdate();
 
