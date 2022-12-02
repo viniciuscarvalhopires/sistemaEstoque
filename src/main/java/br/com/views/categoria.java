@@ -287,9 +287,9 @@ public class categoria extends javax.swing.JFrame {
             ResultSetMetaData rsmd = rs.getMetaData();
             count = rsmd.getColumnCount(); //Retorna a quantidade de colunas na tabela a ser realizado o select
 
-            DefaultTableModel tabelaModel = (DefaultTableModel) tabelaCategorias.getModel();
+            DefaultTableModel model = (DefaultTableModel) tabelaCategorias.getModel();
 
-            tabelaModel.setRowCount(0);
+            model.setRowCount(0);
 
             while (rs.next()) {
                 Vector v = new Vector(); //Vetor criado para armazenar os valores das colunas do ResultSet
@@ -299,7 +299,7 @@ public class categoria extends javax.swing.JFrame {
                     v.add(rs.getString("nm_categoria"));
                 }
 
-                tabelaModel.addRow(v); //Adiciona o vetor a linha da tabela
+                model.addRow(v); //Adiciona o vetor a linha da tabela
             }
 
         } catch (SQLException ex) {
@@ -420,8 +420,9 @@ public class categoria extends javax.swing.JFrame {
         inicio.setVisible(true);
     }//GEN-LAST:event_inicioMouseClicked
 
-    public JTable getTable() {
-        return this.tabelaCategorias;
+    public DefaultTableModel getTable() {
+        DefaultTableModel model = (DefaultTableModel) tabelaCategorias.getModel();
+        return model;
     }
 
     /**

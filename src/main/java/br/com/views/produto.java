@@ -25,11 +25,14 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 public class produto extends javax.swing.JFrame {
-
+    
+    
+    
     public produto() {
         initComponents();
         categorias();
         updateTable();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -62,7 +65,6 @@ public class produto extends javax.swing.JFrame {
         clearFields = new javax.swing.JButton();
         searchField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("produto"); // NOI18N
@@ -250,8 +252,6 @@ public class produto extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel9.setText("Pesquisar");
 
-        jFormattedTextField1.setText("jFormattedTextField1");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -295,16 +295,17 @@ public class produto extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addComponent(clearFields))
                     .addComponent(jScrollPane1))
-                .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45))
+                        .addGap(325, 325, 325))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,17 +344,11 @@ public class produto extends javax.swing.JFrame {
                             .addComponent(insertButton)
                             .addComponent(clearFields)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
@@ -389,9 +384,9 @@ public class produto extends javax.swing.JFrame {
 
             count = rsmd.getColumnCount();
 
-            DefaultTableModel d = (DefaultTableModel) tabelaProdutos.getModel();
+            DefaultTableModel model = (DefaultTableModel) tabelaProdutos.getModel();
 
-            d.setRowCount(0);
+            model.setRowCount(0);
 
             while (rs.next()) {
                 Vector v = new Vector();
@@ -404,7 +399,7 @@ public class produto extends javax.swing.JFrame {
                     v.add(rs.getString("ds_descricao"));
                 }
 
-                d.addRow(v);
+                model.addRow(v);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -611,8 +606,9 @@ public class produto extends javax.swing.JFrame {
         inicio.setVisible(true);
     }//GEN-LAST:event_inicioMouseClicked
 
-    public JTable getTable() {
-        return this.tabelaProdutos;
+    public DefaultTableModel getTable() {
+        DefaultTableModel model = (DefaultTableModel) tabelaProdutos.getModel();
+        return model;
     }
 
     /**
@@ -634,7 +630,6 @@ public class produto extends javax.swing.JFrame {
     private javax.swing.JTextArea descricaoProduto;
     private javax.swing.JLabel inicio;
     private javax.swing.JButton insertButton;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

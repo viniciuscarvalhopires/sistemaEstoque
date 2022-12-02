@@ -7,6 +7,7 @@ package br.com.views;
 import br.com.connectionjdbc.SingleConnection;
 import br.com.dao.CategoriaDAO;
 import br.com.dao.ProdutoDAO;
+import br.com.model.Relatorio;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -31,6 +32,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Vinicius
  */
 public class Inicio extends javax.swing.JFrame {
+
+    
 
   
     public Inicio() {
@@ -258,9 +261,9 @@ public class Inicio extends javax.swing.JFrame {
             ResultSetMetaData rsmd = rs.getMetaData();
             count = rsmd.getColumnCount();
 
-            DefaultTableModel d = (DefaultTableModel) tabelaCategoriaProdutos.getModel();
+            DefaultTableModel model = (DefaultTableModel) tabelaCategoriaProdutos.getModel();
 
-            d.setRowCount(0);
+            model.setRowCount(0);
 
             while (rs.next()) {
                 Vector v = new Vector(); //Utiliza os mesmos métodos da classe categoria e produto para atualizar a tabela, armazenando, para cada coluna do result set, uma opsição no vetor
@@ -271,7 +274,7 @@ public class Inicio extends javax.swing.JFrame {
                     v.add(rs.getInt("soma"));
                 }
 
-                d.addRow(v);
+                model.addRow(v);
             }
             rs.close();
         } catch (SQLException ex) {
@@ -303,108 +306,15 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_inicioMouseClicked
 
     private void gerarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarPDFActionPerformed
-
-        String path = ""; //Variável armazenará o caminho para salvar o PDF
-        JFileChooser j = new JFileChooser(); 
-        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int op = j.showSaveDialog(this); //Exibe uma janela para que o usuário selecione o local para salvar o pdf
-
-        if (op == JFileChooser.APPROVE_OPTION) { //Se a opção selecionada for slavar
-            path = j.getSelectedFile().getPath(); //Define o atributo path com o caminho selecionado
-        }
-        Document doc = new Document();
-        try {
-            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\relatorio.pdf")); //Define a "saída" para o PDF no local escolhido anteriormente
-
-            doc.open(); 
-
-            //paragrafos
-            Paragraph p = new Paragraph("CATEGORIAS CADASTRADAS");
-            p.setSpacingAfter(20);
-            p.setAlignment(1);
-            doc.add(p);
-
-            // tabela categoria
-            categoria categoria = new categoria();
-            PdfPTable tabela = new PdfPTable(2);
-            tabela.addCell("ID");
-            tabela.addCell("Categoria");
-            
-            //categoria.getTable() retorna a tabela de categorias atualizada
-            
-            for (int i = 0; i < categoria.getTable().getRowCount(); i++) {
-                String cd_categoria = categoria.getTable().getValueAt(i, 0).toString();
-                String nm_categoria = categoria.getTable().getValueAt(i, 1).toString();
-
-                tabela.addCell(cd_categoria);
-                tabela.addCell(nm_categoria);
-            }
-            doc.add(tabela);
-            
-            p = new Paragraph("PRODUTOS CADASTRADOS");
-            p.setSpacingAfter(20);
-            p.setAlignment(1);
-            doc.add(p);
-
-            // tabela produtos
-            produto produto = new produto();
-            tabela = new PdfPTable(5);
-            tabela.addCell("ID");
-            tabela.addCell("Produto");
-            tabela.addCell("Categoria");
-            tabela.addCell("Valor");
-            tabela.addCell("Quantidade");
-            
-            //produto.getTable() retorna a tabela de produtos atualizada
-            
-            for (int i = 0; i < produto.getTable().getRowCount(); i++) {
-                String cd_produto = produto.getTable().getValueAt(i, 0).toString();
-                String nm_produto = produto.getTable().getValueAt(i, 1).toString();
-                String nm_categoria = produto.getTable().getValueAt(i, 2).toString();
-                String vl_produto = produto.getTable().getValueAt(i, 3).toString();
-                String qt_produto = produto.getTable().getValueAt(i, 4).toString();
-                
-                tabela.addCell(cd_produto);
-                tabela.addCell(nm_produto);
-                tabela.addCell(nm_categoria);
-                tabela.addCell(vl_produto);
-                tabela.addCell(qt_produto);
-            }
-            doc.add(tabela);
-            p = new Paragraph("RELAÇÃO CATEGORIA-PRODUTO");
-            p.setSpacingAfter(20);
-            p.setAlignment(1);
-            doc.add(p);
-
-            //tabelas relação categoria produtos
-            tabela = new PdfPTable(3);
-            tabela.addCell("Categoria");
-            tabela.addCell("Quantidade de produtos");
-            tabela.addCell("Total de produtos cadastrados");
-            for (int i = 0; i < tabelaCategoriaProdutos.getRowCount(); i++) {
-                String nm_categoria = tabelaCategoriaProdutos.getValueAt(i, 0).toString();
-                String qt_produtosCategoria = tabelaCategoriaProdutos.getValueAt(i, 1).toString();
-                String qt_produtosTotal = tabelaCategoriaProdutos.getValueAt(i, 2).toString();
-
-                tabela.addCell(nm_categoria);
-                tabela.addCell(qt_produtosCategoria);
-                tabela.addCell(qt_produtosTotal);
-
-            }     
-            doc.add(tabela);
-
-        } catch (FileNotFoundException ex) {
-
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao gerar o PDF: " + ex);
-        } catch (DocumentException ex) {
-
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao gerar o PDF: " + ex);
-        }
-
-        doc.close();
-
+        Relatorio relatorio = new Relatorio();
+        relatorio.gerarRelatorio();
     }//GEN-LAST:event_gerarPDFActionPerformed
-
+    
+    public DefaultTableModel getTable() {
+        DefaultTableModel model = (DefaultTableModel) tabelaCategoriaProdutos.getModel();
+        return model;
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
