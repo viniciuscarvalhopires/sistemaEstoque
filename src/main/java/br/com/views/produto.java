@@ -457,7 +457,7 @@ public class produto extends javax.swing.JFrame {
                 ProdutoDAO produtoDao = new ProdutoDAO();
                 CategoriaDAO cDao = new CategoriaDAO();
 
-                Double valorUnit = Double.valueOf(valorUnitario.getText());
+                Double valorUnit = Double.valueOf(valorUnitario.getText().replaceAll(",", "."));
                 valorUnit = formatValue(valorUnit);
 
                 produto.setNm_produto(produtoNome.getText());

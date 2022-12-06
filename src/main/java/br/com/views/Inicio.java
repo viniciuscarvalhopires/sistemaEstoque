@@ -8,13 +8,6 @@ import br.com.connectionjdbc.SingleConnection;
 import br.com.dao.CategoriaDAO;
 import br.com.dao.ProdutoDAO;
 import br.com.model.Relatorio;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,10 +20,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Vinicius
- */
 public class Inicio extends javax.swing.JFrame {
 
     

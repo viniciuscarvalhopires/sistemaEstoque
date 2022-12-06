@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package br.com.model;
 
 import br.com.views.categoria;
@@ -27,6 +24,11 @@ public class Relatorio {
         private String path = "";
         JFileChooser j = new JFileChooser(); 
         Document doc = new Document();
+
+        public Relatorio() {
+        }
+        
+        
         
         public void gerarRelatorio(){
             
@@ -48,6 +50,7 @@ public class Relatorio {
             //paragrafos
             Paragraph p = new Paragraph("CATEGORIAS CADASTRADAS");
             p.setSpacingAfter(20);
+            p.setSpacingBefore(40);
             p.setAlignment(1);
             doc.add(p);
 
@@ -69,6 +72,7 @@ public class Relatorio {
             doc.add(tabela);
             
             p = new Paragraph("PRODUTOS CADASTRADOS");
+            p.setSpacingBefore(40);
             p.setSpacingAfter(20);
             p.setAlignment(1);
             doc.add(p);
@@ -101,6 +105,7 @@ public class Relatorio {
             
             doc.add(tabela);
             p = new Paragraph("RELAÇÃO CATEGORIA-PRODUTO");
+            p.setSpacingBefore(40);
             p.setSpacingAfter(20);
             p.setAlignment(1);
             doc.add(p);
